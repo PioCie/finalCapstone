@@ -47,6 +47,7 @@ elif user_selection == "bond":
     # Calculated the annual interest rate.
     interest_rate = (interest_rate / 100) / 12
     num_of_months = int(input("Number of months you plan to spend on repaying the bond: "))
+    # Monthly payment is calculated
     result = (interest_rate * house_value) / (1 - (1 + interest_rate) ** (-num_of_months))
     # Show the amount to pay for ech month to pay off the house with two decimal places
     print(f"To pay off you house, you have to pay {result:.2f} GBP for next {num_of_months} months.")
