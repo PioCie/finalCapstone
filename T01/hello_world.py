@@ -5,9 +5,7 @@
 # display the message "Hello World!"
 
 name = input("What is your name ? ")
-print(name)
-print()
+print(name, "\n")
 age = input("What is your age ? ")
-print(age)
-print()
+print(age, "\n")
 print("Hello World!")
