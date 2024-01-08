@@ -1,4 +1,5 @@
-with (open("DOB.txt", "r") as file):
-    lines = file.readlines()
-    for line in lines:
-        print(line)
+with open('DOB.txt', 'r+') as file:
+    content = file.readlines()
+    for i in range(len(content)):
+        print(type(i))
+
