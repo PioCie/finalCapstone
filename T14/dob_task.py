@@ -7,7 +7,7 @@ with open("DOB.txt", "r", encoding="utf-8") as file:
     for line in file:
         # Split the line into name, surname and birthdate
         name, surname, birthdate = line.strip().split(" ", 2)
-        # Added name and surname to creat a full name
+        # Added name and surname to create a full name
         full_name = name + " " + surname
         # Append the name and birthdate to their respective lists
         names.append(full_name)
