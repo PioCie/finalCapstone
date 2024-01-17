@@ -74,7 +74,7 @@ def get_duration_of_stay(question):
 create_frame("Welcome to ..::Holiday costs calculator::..")
 # Selecting destination and cost by user
 destination = get_destination_choice()
-# Counting flight cost
+# Display flight cost for user
 flight_cost = plane_cost(destination)
 print(f"Great choice, the flight cost for your destination is {flight_cost:.2f}£\n")
 # Selecting duration of stay by user
