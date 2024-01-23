@@ -1,1 +1,3 @@
 admin;password
+Piotr;Cieslik
+Kamil;Man
