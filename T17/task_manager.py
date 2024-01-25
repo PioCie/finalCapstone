@@ -42,7 +42,7 @@ def add_task(dict_with_user_data):
                      - A title of a task,
                      - A description of the task and
                      - the due date of the task."""
-    # Started new while loop to be able back to main menu loop after provided wrong task_username
+    # Started new while loop to be able back to task_username input after provided wrong task_username
     while True:
         task_username = input("Name of person assigned to task: ")
         if task_username not in dict_with_user_data.keys():
@@ -99,6 +99,21 @@ def view_all(all_tasks):
         disp_str += f"Due Date: \t\t {t['due_date'].strftime(DATETIME_STRING_FORMAT)}\n"
         disp_str += f"Task Description: \n {t['description']}\n"
         print(disp_str)
+
+
+def view_mine(all_tasks, logged_user):
+    """Reads the task from task.txt file and prints to the console in the
+               format of Output 2 presented in the task pdf (i.e. includes spacing
+               and labelling)
+            """
+    for t in all_tasks:
+        if t['username'] == logged_user:
+            disp_str = f"Task: \t\t\t {t['title']}\n"
+            disp_str += f"Assigned to: \t {t['username']}\n"
+            disp_str += f"Date Assigned: \t {t['assigned_date'].strftime(DATETIME_STRING_FORMAT)}\n"
+            disp_str += f"Due Date: \t\t {t['due_date'].strftime(DATETIME_STRING_FORMAT)}\n"
+            disp_str += f"Task Description: \n {t['description']}\n"
+            print(disp_str)
 
 
 DATETIME_STRING_FORMAT = "%Y-%m-%d"
@@ -181,13 +196,11 @@ e - Exit
     elif menu == 'a':
         add_task(username_password)
 
-
     elif menu == 'va':
         view_all(task_list)
 
-
     elif menu == 'vm':
-        pass
+        view_mine(task_list, curr_user)
 
     elif menu == 'ds' and curr_user == 'admin':
         '''If the user is an admin they can display statistics about number of users
