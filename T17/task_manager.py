@@ -1,10 +1,3 @@
-# Notes:
-# 1. Use the following username and password to access the admin rights
-# username: admin
-# password: password
-# 2. Ensure you open the whole folder for this task in VS Code otherwise the
-# program will look in your root directory for the text files.
-
 # =====importing libraries===========
 import os
 from datetime import datetime, date
@@ -12,8 +5,12 @@ from datetime import datetime, date
 
 def reg_user(dict_with_user_data):
     """Add a new user to the user.txt file"""
-    # - Request input of a new username
+    # Request input of a new username
     new_username = input("New Username: ")
+    # A new loop was started to prevent duplicate usernames.
+    while new_username in dict_with_user_data.keys():
+        print(f"Username {new_username} already exist in our record, please choose another username.")
+        new_username = input("New Username: ")
     # - Request input of a new password
     new_password = input("New Password: ")
     # - Request input of password confirmation.
@@ -116,6 +113,18 @@ def view_mine(all_tasks, logged_user):
             print(disp_str)
 
 
+def display_statistics(dict_with_user_data, all_tasks):
+    """If the user is an admin they can display statistics about number of users
+               and tasks."""
+    num_users = len(dict_with_user_data.keys())
+    num_tasks = len(all_tasks)
+
+    print("-----------------------------------")
+    print(f"Number of users: \t\t {num_users}")
+    print(f"Number of tasks: \t\t {num_tasks}")
+    print("-----------------------------------")
+    
+
 DATETIME_STRING_FORMAT = "%Y-%m-%d"
 
 # Create tasks.txt if it doesn't exist
@@ -203,15 +212,7 @@ e - Exit
         view_mine(task_list, curr_user)
 
     elif menu == 'ds' and curr_user == 'admin':
-        '''If the user is an admin they can display statistics about number of users
-            and tasks.'''
-        num_users = len(username_password.keys())
-        num_tasks = len(task_list)
-
-        print("-----------------------------------")
-        print(f"Number of users: \t\t {num_users}")
-        print(f"Number of tasks: \t\t {num_tasks}")
-        print("-----------------------------------")
+        display_statistics(username_password, task_list)
 
     elif menu == 'e':
         print('Goodbye!!!')
