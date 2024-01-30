@@ -151,10 +151,6 @@ for t_str in task_data:
 
     task_list.append(curr_t)
 
-# ====Login Section====
-'''This code reads usernames and password from the user.txt file to 
-    allow a user to login.
-'''
 # If no user.txt file, write one with a default account
 if not os.path.exists("user.txt"):
     with open("user.txt", "w") as default_file:
