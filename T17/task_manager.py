@@ -103,7 +103,7 @@ def view_mine(all_tasks, logged_user):
                format of Output 2 presented in the task pdf (i.e. includes spacing
                and labelling)
             """
-    for t in all_tasks:
+    for t, i in enumerate(all_tasks):
         if t['username'] == logged_user:
             disp_str = f"Task: \t\t\t {t['title']}\n"
             disp_str += f"Assigned to: \t {t['username']}\n"
