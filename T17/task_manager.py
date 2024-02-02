@@ -5,21 +5,21 @@ from datetime import datetime, date
 
 def reg_user(dict_with_user_data):
     """Add a new user to the user.txt file"""
-    # Request input of a new username
-    new_username = input("New Username: ")
+    # Request input of a new username and converted to lower case.
+    new_username = input("New Username: ").lower()
     # A new loop was started to prevent duplicate usernames.
     while new_username in dict_with_user_data.keys():
         print(f"Username {new_username} already exist in our record, please choose another username.")
-        new_username = input("New Username: ")
-    # - Request input of a new password
-    new_password = input("New Password: ")
+        new_username = input("New Username: ").lower()
+    # - Request input of a new password and converted to lower case
+    new_password = input("New Password: ").lower()
     # - Request input of password confirmation.
-    confirm_password = input("Confirm Password: ")
+    confirm_password = input("Confirm Password: ").lower()
 
     # - Check if the new password and confirmed password are the same.
     if new_password == confirm_password:
         # - If they are the same, add them to the user.txt file,
-        print("New user added")
+        print(f"User {new_username} has been added to the system. ")
         dict_with_user_data[new_username] = new_password
 
         with open("user.txt", "w") as out_file:
@@ -41,7 +41,7 @@ def add_task(dict_with_user_data):
                      - the due date of the task."""
     # Started new while loop to be able back to task_username input after provided wrong task_username
     while True:
-        task_username = input("Name of person assigned to task: ")
+        task_username = input("Name of person assigned to task: ").lower()
         if task_username not in dict_with_user_data.keys():
             print("User does not exist. Please enter a valid username")
         else:
@@ -103,14 +103,27 @@ def view_mine(all_tasks, logged_user):
                format of Output 2 presented in the task pdf (i.e. includes spacing
                and labelling)
             """
-    for t, i in enumerate(all_tasks):
-        if t['username'] == logged_user:
-            disp_str = f"Task: \t\t\t {t['title']}\n"
-            disp_str += f"Assigned to: \t {t['username']}\n"
-            disp_str += f"Date Assigned: \t {t['assigned_date'].strftime(DATETIME_STRING_FORMAT)}\n"
-            disp_str += f"Due Date: \t\t {t['due_date'].strftime(DATETIME_STRING_FORMAT)}\n"
-            disp_str += f"Task Description: \n {t['description']}\n"
+    # Enumeration in a loop was used to allow the user to select a specific task
+    for task_number, task_details in enumerate(all_tasks, 1):
+        if task_details['username'] == logged_user:
+            disp_str = f"Task number: \t {task_number}\n"
+            disp_str += f"Task: \t\t\t {task_details['title']}\n"
+            disp_str += f"Assigned to: \t {task_details['username']}\n"
+            disp_str += f"Date Assigned: \t {task_details['assigned_date'].strftime(DATETIME_STRING_FORMAT)}\n"
+            disp_str += f"Due Date: \t\t {task_details['due_date'].strftime(DATETIME_STRING_FORMAT)}\n"
+            disp_str += f"Task Description: \n {task_details['description']}\n"
             print(disp_str)
+
+    # Started loop to allow user choose a task for amendment.
+    while True:
+        try:
+            selected_task = int(input("Select the task number you wish to change: "))
+            break
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+    # Started loop to get the details of chosen task.
+    for task_details in all_tasks:
+        if task_details
 
 
 def display_statistics(dict_with_user_data, all_tasks):
@@ -123,7 +136,7 @@ def display_statistics(dict_with_user_data, all_tasks):
     print(f"Number of users: \t\t {num_users}")
     print(f"Number of tasks: \t\t {num_tasks}")
     print("-----------------------------------")
-    
+
 
 DATETIME_STRING_FORMAT = "%Y-%m-%d"
 
