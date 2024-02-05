@@ -122,8 +122,10 @@ def view_mine(all_tasks, logged_user):
         except ValueError:
             print("Invalid input. Please enter a number.")
     # Started loop to get the details of chosen task.
-    for task_details in all_tasks:
-        if task_details
+    while True:
+        if 0 < int(selected_task) <= len(all_tasks):
+            pass
+
 
 
 def display_statistics(dict_with_user_data, all_tasks):
