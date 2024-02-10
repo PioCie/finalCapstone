@@ -127,7 +127,6 @@ def view_mine(all_tasks, logged_user):
             pass
 
 
-
 def display_statistics(dict_with_user_data, all_tasks):
     """If the user is an admin they can display statistics about number of users
                and tasks."""
