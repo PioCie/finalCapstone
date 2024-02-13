@@ -2,6 +2,8 @@
 import os
 from datetime import datetime, date
 
+DATETIME_STRING_FORMAT = "%Y-%m-%d"
+
 
 def reg_user(dict_with_user_data):
     """Add a new user to the user.txt file"""
@@ -100,12 +102,12 @@ def view_all(all_tasks):
 
 def view_mine(all_tasks, logged_user):
     """Reads the task from task.txt file and prints to the console in the
-               format of Output 2 presented in the task pdf (i.e. includes spacing
-               and labelling)
-            """
+       format of Output 2 presented in the task pdf (i.e. includes spacing
+       and labeling)
+    """
     # Enumeration in a loop was used to allow the user to select a specific task
     for task_number, task_details in enumerate(all_tasks, 1):
-        if task_details['username'] == logged_user:
+        if task_details['username'] == logged_user and not task_details['completed']:
             disp_str = f"Task number: \t {task_number}\n"
             disp_str += f"Task: \t\t\t {task_details['title']}\n"
             disp_str += f"Assigned to: \t {task_details['username']}\n"
@@ -114,17 +116,78 @@ def view_mine(all_tasks, logged_user):
             disp_str += f"Task Description: \n {task_details['description']}\n"
             print(disp_str)
 
-    # Started loop to allow user choose a task for amendment.
-    while True:
-        try:
-            selected_task = int(input("Select the task number you wish to change: "))
-            break
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-    # Started loop to get the details of chosen task.
-    while True:
-        if 0 < int(selected_task) <= len(all_tasks):
-            pass
+    # When the tasks are displayed, ask the user which task they want to select
+    user_choice = input("Enter the task number you want to select (or enter -1 to return to the main menu): ")
+    if user_choice.strip() == "-1":
+        return
+    try:
+        task_number = int(user_choice)
+    except ValueError:
+        print("Invalid input. Please enter a valid task number.")
+        return  # If anything other than a number has been entered, terminate the function
+    # Check that the task number is correct
+    if 1 <= task_number <= len(all_tasks):
+        selected_task = all_tasks[task_number - 1]
+        handle_selected_task(selected_task)
+    else:
+        print("Invalid task number. Please enter a valid task number.")
+
+
+def handle_selected_task(selected_task):
+    print(f"Selected Task: {selected_task['title']}")
+    print("1. Mark as complete")
+    print("2. Edit task")
+    print("Enter any other key to go back to the main menu")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        mark_as_complete(selected_task)
+    elif choice == "2":
+        edit_task(selected_task)
+    else:
+        print("Returning to the main menu.")
+
+
+def mark_as_complete(task):
+    task['completed'] = 'Yes'
+    print("Task marked as complete.")
+    with open("tasks.txt", "w") as tasks:
+        task_list_to_write = []
+        for t in task_list:
+            str_attrs = [
+                t['username'],
+                t['title'],
+                t['description'],
+                t['due_date'].strftime(DATETIME_STRING_FORMAT),
+                t['assigned_date'].strftime(DATETIME_STRING_FORMAT),
+                "Yes" if t['completed'] else "No"
+            ]
+            task_list_to_write.append(";".join(str_attrs))
+        tasks.write("\n".join(task_list_to_write))
+
+
+def edit_task(task):
+    if task['completed'] == 'Yes':
+        print("Cannot edit a completed task.")
+        return
+
+    print("1. Edit assigned user")
+    print("2. Edit due date")
+    print("Enter any other key to cancel")
+
+    edit_choice = input("Enter your edit choice: ")
+
+    if edit_choice == "1":
+        new_username = input("Enter the new assigned username: ")
+        task['username'] = new_username
+        print("Assigned user edited.")
+    elif edit_choice == "2":
+        new_due_date = input("Enter the new due date (YYYY-MM-DD): ")
+        task['due_date'] = new_due_date
+        print("Due date edited.")
+    else:
+        print("Editing canceled.")
 
 
 def display_statistics(dict_with_user_data, all_tasks):
@@ -138,8 +201,6 @@ def display_statistics(dict_with_user_data, all_tasks):
     print(f"Number of tasks: \t\t {num_tasks}")
     print("-----------------------------------")
 
-
-DATETIME_STRING_FORMAT = "%Y-%m-%d"
 
 # Create tasks.txt if it doesn't exist
 if not os.path.exists("tasks.txt"):
@@ -205,6 +266,7 @@ r - Registering a user
 a - Adding a task
 va - View all tasks
 vm - View my task
+gr - Generate reports
 ds - Display statistics
 e - Exit
 : ''').lower()
