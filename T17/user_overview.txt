@@ -1,0 +1,18 @@
+User Overview
+Total number of users: 3
+Total number of tasks: 5
+
+User: admin
+Total number of tasks assigned: 2
+Percentage of total tasks: 40.00%
+Percentage of completed tasks: 0.00%
+
+User: piotr
+Total number of tasks assigned: 2
+Percentage of total tasks: 40.00%
+Percentage of completed tasks: 0.00%
+
+User: kamil
+Total number of tasks assigned: 1
+Percentage of total tasks: 20.00%
+Percentage of completed tasks: 0.00%

@@ -134,6 +134,7 @@ def view_mine(all_tasks, logged_user):
 
 
 def handle_selected_task(selected_task):
+    """Once we have selected a task, we can decide what we can do with it."""
     print(f"Selected Task: {selected_task['title']}")
     print("1. Mark as complete")
     print("2. Edit task")
@@ -191,15 +192,77 @@ def edit_task(task):
 
 
 def display_statistics(dict_with_user_data, all_tasks):
-    """If the user is an admin they can display statistics about number of users
-               and tasks."""
-    num_users = len(dict_with_user_data.keys())
-    num_tasks = len(all_tasks)
+    """ If the user is an admin, displays statistics about the number of users and tasks.
+        :param dict_with_user_data: Dictionary containing username-password pairs.
+        :param all_tasks: List of task dictionaries.
+    """
+    task_overview_file_exists = os.path.exists("task_overview.txt")
+    user_overview_file_exists = os.path.exists("user_overview.txt")
 
-    print("-----------------------------------")
-    print(f"Number of users: \t\t {num_users}")
-    print(f"Number of tasks: \t\t {num_tasks}")
-    print("-----------------------------------")
+    if not task_overview_file_exists or not user_overview_file_exists:
+        generate_task_overview(all_tasks)
+        generate_user_overview(dict_with_user_data, all_tasks)
+
+    # Read and display task overview
+    with open("task_overview.txt", 'r') as task_overview_file:
+        task_overview_data = task_overview_file.read()
+        print(task_overview_data)
+
+    # Read and display user overview
+    with open("user_overview.txt", 'r') as user_overview_file:
+        user_overview_data = user_overview_file.read()
+        print(user_overview_data)
+
+
+def generate_task_overview(tasks):
+    """ Generates a task overview report and writes it to task_overview.txt.
+    :param tasks: List of task dictionaries."""
+
+    total_tasks = len(tasks)
+    completed_tasks = sum(task['completed'] for task in tasks)
+    uncompleted_tasks = total_tasks - completed_tasks
+    overdue_tasks = sum(1 for task in tasks if not task['completed'] and task['due_date'] < datetime.now())
+    incomplete_percentage = (uncompleted_tasks / total_tasks) * 100 if total_tasks != 0 else 0
+    overdue_percentage = (overdue_tasks / total_tasks) * 100 if total_tasks != 0 else 0
+
+    with open("task_overview.txt", "w") as task_overview_file:
+        task_overview_file.write("Task Overview\n")
+        task_overview_file.write(f"Total number of tasks: {total_tasks}\n")
+        task_overview_file.write(f"Total number of completed tasks: {completed_tasks}\n")
+        task_overview_file.write(f"Total number of uncompleted tasks: {uncompleted_tasks}\n")
+        task_overview_file.write(f"Total number of overdue tasks: {overdue_tasks}\n")
+        task_overview_file.write(f"Percentage of incomplete tasks: {incomplete_percentage:.2f}%\n")
+        task_overview_file.write(f"Percentage of overdue tasks: {overdue_percentage:.2f}%\n")
+
+    print("Task Overview report generated successfully.")
+
+
+def generate_user_overview(users, tasks):
+    """ Generates a user overview report and writes it to user_overview.txt.
+        :param users: Dictionary of username-password pairs.
+        :param tasks: List of task dictionaries.
+    """
+    total_users = len(users)
+    total_tasks = len(tasks)
+
+    with open("user_overview.txt", "w") as user_overview_file:
+        user_overview_file.write("User Overview\n")
+        user_overview_file.write(f"Total number of users: {total_users}\n")
+        user_overview_file.write(f"Total number of tasks: {total_tasks}\n")
+
+        for user, password in users.items():
+            user_tasks = [task for task in tasks if task['username'] == user]
+            total_user_tasks = len(user_tasks)
+            user_completed_tasks = sum(task['completed'] for task in user_tasks)
+            user_percentage_total = (total_user_tasks / total_tasks) * 100 if total_tasks != 0 else 0
+            user_percentage_completed = (user_completed_tasks / total_user_tasks) * 100 if total_user_tasks != 0 else 0
+
+            user_overview_file.write(f"\nUser: {user}\n")
+            user_overview_file.write(f"Total number of tasks assigned: {total_user_tasks}\n")
+            user_overview_file.write(f"Percentage of total tasks: {user_percentage_total:.2f}%\n")
+            user_overview_file.write(f"Percentage of completed tasks: {user_percentage_completed:.2f}%\n")
+
+    print("User Overview report generated successfully.")
 
 
 # Create tasks.txt if it doesn't exist
@@ -283,12 +346,15 @@ e - Exit
     elif menu == 'vm':
         view_mine(task_list, curr_user)
 
+    elif menu == 'gr':
+        generate_task_overview(task_list)
+        generate_user_overview(username_password, task_list)
+
     elif menu == 'ds' and curr_user == 'admin':
         display_statistics(username_password, task_list)
 
     elif menu == 'e':
         print('Goodbye!!!')
         exit()
-
     else:
         print("You have made a wrong choice, Please Try again")
