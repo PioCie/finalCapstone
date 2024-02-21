@@ -23,9 +23,12 @@ class Email:
         # Add sample emails to the inbox
         self.inbox.extend([sample_email_1, sample_email_2, sample_email_3])
 
+    def list_emails(self):
+        # loops through the inbox and prints each email’s subject_line.
+        for count, email in enumerate(self.inbox, 1):
+            print(f"{count}: {email.subject_line}")
+
 
 # Creating an Email object
 my_email = Email("myemail@example.com", "Test Subject", "This is a test email.")
 my_email.populate_inbox()
-for email in my_email.inbox:
-    print(f"From: {email.email_address}\nSubject: {email.subject_line}\nContent: {email.email_content}\n")
