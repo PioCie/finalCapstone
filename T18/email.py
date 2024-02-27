@@ -13,64 +13,62 @@ class Email:
             print("The email has already been read")
 
 
-class EmailSimulator:
-    def __init__(self):
-        self.inbox = []
+def populate_inbox():
+    # Sample emails
+    email1 = Email("sender1@example.com", "Welcome to HyperionDev!", "Thank you for joining.")
+    email2 = Email("sender2@example.com", "Great work on the bootcamp!", "Your efforts are commendable.")
+    email3 = Email("sender3@example.com", "Your excellent marks!", "Congratulations on your achievements.")
 
-    def populate_inbox(self):
-        # Sample emails
-        email1 = Email("sample1@gmail.com", "Car insurance", "The insurance will be renewed")
-        email2 = Email("sample2@yahoo.co.uk", "Amazon parcel", "Your parcel is on its way")
-        email3 = Email("sample3@icloud.com", "Application update", "Please see below the update on your application")
+    # Add sample emails to the inbox
+    inbox = [email1, email2, email3]
+    return inbox
 
-        # Add sample emails to the inbox
-        self.inbox.extend([email1, email2, email3])
 
-    def list_emails(self):
-        # Print list of emails with numbers
-        print("Inbox:")
-        for i, email in enumerate(self.inbox):
-            print(f"{i} {email.subject_line}")
+def list_emails(inbox):
+    # Print list of emails with numbers
+    print("Inbox:")
+    for i, email in enumerate(inbox):
+        print(f"{i} {email.subject_line}")
 
-    def read_email(self, index):
-        if 0 <= index < len(self.inbox):
-            selected_email = self.inbox[index]
-            print(f"\nEmail from {selected_email.email_address} with subject '{selected_email.subject_line}':")
-            print(f"Content: {selected_email.email_content}\n")
 
-            # Mark the selected email as read
-            selected_email.mark_as_read()
-        else:
-            print("Invalid index. Please provide a valid index.")
+def read_email(inbox, index):
+    if 0 <= index < len(inbox):
+        selected_email = inbox[index]
+        print(f"\nEmail from {selected_email.email_address} with subject '{selected_email.subject_line}':")
+        print(f"Content: {selected_email.email_content}\n")
+
+        # Mark the selected email as read
+        selected_email.mark_as_read()
+    else:
+        print("Invalid index. Please provide a valid index.")
 
 
 # Created a welcome logo
 def create_welcome_frame(title):
     border = "#" * 50
     frame = f"\n{border}\n#{' ' * 48}#\n#{title.center(48)}#\n#{' ' * 48}#\n{border}"
-    print(frame, "\n")
+    print(frame)
 
 
 # Main application logic
 def main():
     create_welcome_frame("Welcome to Jmail")
-    email_simulator = EmailSimulator()
-    email_simulator.populate_inbox()
+    inbox = populate_inbox()
 
     while True:
-        print("\nMenu:\n")
+        print("\nMenu:")
         print("1. Read an email")
         print("2. View unread email subjects")
-        print("3. Quit\n")
+        print("3. Quit")
 
         choice = input("Enter your choice (1, 2, or 3): ")
 
         if choice == '1':
-            email_simulator.list_emails()
+            list_emails(inbox)
             index = int(input("Enter the index of the email you want to read: "))
-            email_simulator.read_email(index)
+            read_email(inbox, index)
         elif choice == '2':
-            unread_subjects = [email.subject_line for email in email_simulator.inbox if not email.has_been_read]
+            unread_subjects = [email.subject_line for email in inbox if not email.has_been_read]
             if unread_subjects:
                 print("\nUnread Email Subjects:")
                 for subject in unread_subjects:
@@ -84,6 +82,5 @@ def main():
             print("Invalid choice. Please enter 1, 2, or 3.")
 
 
-# Check whether the Python script is being run as the main program or if it is being imported as a module.
 if __name__ == "__main__":
     main()
