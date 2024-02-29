@@ -1,4 +1,4 @@
-# Creating a variable with the phrase.
+# Creating a variable with the phrase in this case "Hello World".
 phrase = "Hello World"
 # Creating an empty variable for a modified phrase.
 new_phrase = ""
