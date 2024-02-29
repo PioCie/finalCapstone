@@ -1,7 +1,7 @@
 # Create a list called menu, which items sold in cafe.
 menu = ["Expresso", "Americano", "Late", "Cappuccino", "Babyccino"]
 # Create a dictionary with the stock value for each item on menu.
-stock = {"Expresso": 120,
+stocks = {"Expresso": 120,
          "Americano": 80,
          "Late": 60,
          "Cappuccino": 40,
