@@ -3,16 +3,16 @@ Explore the code and projects to get an insight into my coding skills and softwa
 
 ## Email Simulator
 
-[Source code & Readme](https://github.com/PioCie/finalCapstone/blob/main/T18/email.py)
+[Source code & Readme](https://github.com/PioCie/finalCapstone/tree/main/T18)
 
 ## Holidays Booking System
 
-[Source code & Readme](https://github.com/PioCie/finalCapstone/blob/main/T16/holiday.py)
+[Source code & Readme](https://github.com/PioCie/finalCapstone/blob/main/T16)
 
 ## Student Register
 
-[Source code & Readme](https://github.com/PioCie/finalCapstone/blob/main/T15/student_register.py)
+[Source code & Readme](https://github.com/PioCie/finalCapstone/blob/main/T15)
 
 ## Task Manager
 
-[Source code & Readme](https://github.com/PioCie/finalCapstone/blob/main/T17/task_manager.py)
+[Source code & Readme](https://github.com/PioCie/finalCapstone/blob/main/T17)
